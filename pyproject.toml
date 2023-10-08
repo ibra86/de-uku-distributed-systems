@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "de-uku-distributed-systems"
+version = "0.1.0"
+description = "Replicated log with one master and two secondary servers"
+authors = ["Anton Ibragimov"]
+readme = "README.md"
+packages = [{include = "de_uku_distributed_systems"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.2"
+uvicorn = "^0.23.2"
+pydantic = "^2.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
