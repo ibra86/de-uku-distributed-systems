@@ -1,3 +1,4 @@
-.idea
-poetry.lock
-requirements.txt
+/.idea/
+/poetry.lock
+/requirements.txt
+/arx/
