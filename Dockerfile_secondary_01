@@ -17,7 +17,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 COPY requirements.txt .
-# Copy the source code into the container.
+
 COPY ./src .
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
