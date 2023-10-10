@@ -20,4 +20,4 @@ def test_add_message(mocker, client):
     assert response.status_code == 200
     assert response.json()['name'] == 'msg'
     assert response.json()['timestamp']
-    assert messages == ['msg_sent']
+    assert dict(messages[0])['name'] == 'msg'

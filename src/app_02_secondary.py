@@ -1,15 +1,10 @@
-import os
-
 from fastapi import FastAPI
 
 from model import Message
-from service import MessageService
-from utils.helpers import get_file_name
+from utils.helpers import get_file_name, sleep_ms
 from utils.logger import get_logger
 
-APP_PORT = 8000
-SECONDARY_01_URL = os.getenv('SECONDARY_01_URL')
-SECONDARY_02_URL = os.getenv('SECONDARY_02_URL')
+APP_PORT = 8002
 messages = []
 service_name = get_file_name(__file__)
 logger = get_logger(service_name)
@@ -26,10 +21,11 @@ async def read_root():
 @app.post("/")
 async def add_message(msg: Message):
     logger.info(f'Received message: `{dict(msg)}` on server: `{service_name}`')
-    msg_sent_1 = await MessageService().send_message(msg, SECONDARY_01_URL)
-    msg_sent_2 = await MessageService().send_message(msg, SECONDARY_02_URL)
-    if msg_sent_1 and msg_sent_2:
-        messages.append(msg)
+
+    s = await sleep_ms()
+    logger.info(f'Slept: `{s}` ms on server: `{service_name}`')
+
+    messages.append(msg)
     return msg
 
 
