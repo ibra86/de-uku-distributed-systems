@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from model import Message
-from utils.helpers import get_file_name
+from utils.helpers import get_file_name, sleep_ms
 from utils.logger import get_logger
 
 APP_PORT = 8001
@@ -21,6 +21,10 @@ async def read_root():
 @app.post("/")
 async def add_message(msg: Message):
     logger.info(f'Received message: `{dict(msg)}` on server: `{service_name}`')
+
+    s = await sleep_ms()
+    logger.info(f'Slept: `{s}` ms on server: `{service_name}`')
+
     messages.append(msg)
     return msg
 
