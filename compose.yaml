@@ -1,21 +1,22 @@
 services:
   master:
-    build:
-      context: .
-      dockerfile: Dockerfile_master
+    image: python_app_base
     ports:
       - 8000:8000
     environment:
       - SECONDARY_01_URL=http://secondary_01:8001
     networks:
       - replicated-log-network
+    entrypoint: ["uvicorn"]
+    command: ["app_00_master:app", "--host=0.0.0.0", "--port=8000"]
   secondary_01:
-    build:
-      context: .
-      dockerfile: Dockerfile_secondary_01
+    image: python_app_base
     ports:
       - 8001:8001
     networks:
       - replicated-log-network
+#    command: ["bash"]
+#    entrypoint: ["uvicorn"]
+#    command: ["app_00_master:app", "--host=0.0.0.0", "--port=8001"]
 networks:
   replicated-log-network:

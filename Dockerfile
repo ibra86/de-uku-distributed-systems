@@ -42,8 +42,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 ## Switch to the non-privileged user to run the application.
 #USER appuser
 
-# Expose the port that the application listens on.
-EXPOSE 8000
-
-# Run the application.
-CMD uvicorn 'app_00_master:app' --host=0.0.0.0 --port=8000
+ENTRYPOINT ["bash"]
