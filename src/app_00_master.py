@@ -25,9 +25,9 @@ async def read_root():
 @app.post("/")
 async def add_message(msg: Message):
     logger.info(f'Received message: `{dict(msg)}` on server: `{service_name}`')
-    msg_sent = await MessageService().send_message(msg, SECONDARY_01_URL)
-    if msg_sent:
-        messages.append(msg_sent)
+    msg_sent_1 = await MessageService().send_message(msg, SECONDARY_01_URL)
+    if msg_sent_1:
+        messages.append(msg)
     return msg
 
 

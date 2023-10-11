@@ -15,8 +15,7 @@ services:
       - 8001:8001
     networks:
       - replicated-log-network
-#    command: ["bash"]
-#    entrypoint: ["uvicorn"]
-#    command: ["app_00_master:app", "--host=0.0.0.0", "--port=8001"]
+    entrypoint: ["uvicorn"]
+    command: ["app_00_secondary_01:app", "--host=0.0.0.0", "--port=8001"]
 networks:
   replicated-log-network:
