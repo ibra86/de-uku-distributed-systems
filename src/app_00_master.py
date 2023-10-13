@@ -1,6 +1,8 @@
+import asyncio
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from httpx import HTTPError, codes
 
 from model import Message
 from service import MessageService
@@ -10,6 +12,8 @@ from utils.logger import get_logger
 APP_PORT = 8000
 SECONDARY_01_URL = os.getenv('SECONDARY_01_URL')
 SECONDARY_02_URL = os.getenv('SECONDARY_02_URL')
+
+serv_urls = (SECONDARY_01_URL, SECONDARY_02_URL)
 messages = []
 service_name = get_file_name(__file__)
 logger = get_logger(service_name)
@@ -26,10 +30,15 @@ async def read_root():
 @app.post("/")
 async def add_message(msg: Message):
     logger.info(f'Received message: `{dict(msg)}` on server: `{service_name}`')
-    msg_sent_1 = await MessageService().send_message(msg, SECONDARY_01_URL)
-    msg_sent_2 = await MessageService().send_message(msg, SECONDARY_02_URL)
-    if msg_sent_1 and msg_sent_2:
+
+    msg_sent_coros = [MessageService().send_message(msg, u) for u in serv_urls]
+    try:
+        await asyncio.gather(*msg_sent_coros)
         messages.append(msg)
+    except HTTPError as e:
+        logger.debug(f'HTTPError: {e}')
+        raise HTTPException(status_code=codes.SERVICE_UNAVAILABLE, detail="Secondary server is unavailable")
+
     return msg
 
 
