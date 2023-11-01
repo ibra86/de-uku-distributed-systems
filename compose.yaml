@@ -1,0 +1,30 @@
+services:
+  master:
+    build:
+      context: .
+      dockerfile: Dockerfile_master
+    ports:
+      - 8000:8000
+    environment:
+      - SECONDARY_01_URL=http://secondary_01:8001
+      - SECONDARY_02_URL=http://secondary_02:8002
+    networks:
+      - replicated-log-network
+  secondary_01:
+    build:
+      context: .
+      dockerfile: Dockerfile_secondary_01
+    ports:
+      - 8001:8001
+    networks:
+      - replicated-log-network
+  secondary_02:
+    build:
+      context: .
+      dockerfile: Dockerfile_secondary_02
+    ports:
+      - 8002:8002
+    networks:
+      - replicated-log-network
+networks:
+  replicated-log-network:
