@@ -2,7 +2,7 @@ import asyncio
 
 from fastapi import FastAPI
 
-from model import Message
+from model import MessageCounter
 from utils.helpers import get_file_name
 from utils.logger import get_logger
 
@@ -20,7 +20,7 @@ async def read_root():
 
 
 @app.post("/")
-async def add_message(msg: Message):
+async def add_message(msg: MessageCounter):
     logger.info(f'Received message: `{dict(msg)}` on server: `{service_name}`')
 
     await asyncio.sleep(10)

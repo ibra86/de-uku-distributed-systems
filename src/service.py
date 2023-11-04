@@ -17,8 +17,9 @@ class MessageService:
         else:
             raise
 
+    @staticmethod
     @backoff.on_exception(backoff.expo, ConnectError, max_time=3)
-    async def client_post(self, msg, url):
+    async def client_post(msg, url):
         try:
             async with AsyncClient() as client:
                 resp = await client.post(url=url,
