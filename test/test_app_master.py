@@ -1,8 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app_00_master import app
-from app_00_master import messages
+from app_master import app
+from app_master import messages
 
 
 @pytest.fixture
@@ -15,9 +15,9 @@ def test_add_message(mocker, client):
 
     response = client.post(
         '/',
-        json={'name': 'msg'}
+        json={'name': 'msg', 'write_concern': 1}
     )
     assert response.status_code == 200
     assert response.json()['name'] == 'msg'
-    assert response.json()['timestamp']
+    assert response.json()['write_concern'] == 1
     assert dict(messages[0])['name'] == 'msg'

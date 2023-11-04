@@ -4,7 +4,6 @@ from model import Message
 from utils.helpers import get_file_name, sleep_ms
 from utils.logger import get_logger
 
-APP_PORT = 8001
 messages = []
 service_name = get_file_name(__file__)
 logger = get_logger(service_name)
@@ -32,4 +31,5 @@ async def add_message(msg: Message):
 if __name__ == "__main__":
     import uvicorn
 
+    APP_PORT = 8001
     uvicorn.run(app, host="0.0.0.0", port=APP_PORT)
