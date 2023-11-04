@@ -7,6 +7,10 @@
 ARG PYTHON_VERSION=3.11.5
 FROM python:${PYTHON_VERSION}-slim as base
 
+RUN apt update -y && \
+    apt upgrade -y && \
+    apt install curl -y
+
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -43,8 +47,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 ## Switch to the non-privileged user to run the application.
 #USER appuser
 
-# Expose the port that the application listens on.
-EXPOSE 8001
-
-# Run the application.
-CMD uvicorn 'app_01_secondary:app' --host=0.0.0.0 --port=8001
+ENTRYPOINT ["bash"]

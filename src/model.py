@@ -1,8 +1,10 @@
-from datetime import datetime
-
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class Message(BaseModel):
     name: str
-    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+    write_concern: int = 3
+
+
+class MessageCounter(Message):
+    counter: int

@@ -1,10 +1,11 @@
+import asyncio
+
 from fastapi import FastAPI
 
-from model import Message
-from utils.helpers import get_file_name, sleep_ms
+from model import MessageCounter
+from utils.helpers import get_file_name
 from utils.logger import get_logger
 
-APP_PORT = 8001
 messages = []
 service_name = get_file_name(__file__)
 logger = get_logger(service_name)
@@ -19,11 +20,10 @@ async def read_root():
 
 
 @app.post("/")
-async def add_message(msg: Message):
+async def add_message(msg: MessageCounter):
     logger.info(f'Received message: `{dict(msg)}` on server: `{service_name}`')
 
-    s = await sleep_ms()
-    logger.info(f'Slept: `{s}` ms on server: `{service_name}`')
+    await asyncio.sleep(10)
 
     messages.append(msg)
     return msg
@@ -32,4 +32,5 @@ async def add_message(msg: Message):
 if __name__ == "__main__":
     import uvicorn
 
+    APP_PORT = 8002
     uvicorn.run(app, host="0.0.0.0", port=APP_PORT)

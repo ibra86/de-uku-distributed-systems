@@ -15,6 +15,7 @@ make requirements
 ## Run app
 
 ```sh
+make image
 docker-compose up -d --build
 ```
 
